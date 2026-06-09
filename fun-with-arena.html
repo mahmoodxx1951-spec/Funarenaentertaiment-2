@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FUN WITH ARENA – Premium Party & Function Entertainment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-pale: #E8C96A;
+    --navy: #0A0E1A;
+    --navy-mid: #111828;
+    --navy-card: #141C2E;
+    --navy-light: #1C2640;
+    --white: #F8F4EC;
+    --cream: #F2EBD9;
+    --text-muted: #8A8FA8;
+    --accent: #FF6B35;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top:0; left:0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; top:0; left:0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.18s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+  body:hover .cursor { opacity:1; }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content:'';
+    position: fixed; inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top:0; left:0; right:0;
+    z-index: 900;
+    display: flex; align-items:center; justify-content:space-between;
+    padding: 1.4rem 4rem;
+    background: transparent;
+    transition: background 0.4s, backdrop-filter 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(16px);
+    padding: 1rem 4rem;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .nav-logo span { color: var(--white); font-weight: 400; font-style: italic; }
+  .nav-links { display:flex; gap: 2.5rem; list-style:none; }
+  .nav-links a {
+    color: rgba(248,244,236,0.7);
+    text-decoration:none;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    padding: 0.6rem 1.6rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    text-decoration:none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--navy); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items:center; justify-content:center;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, #1C2A4A 0%, var(--navy) 70%);
+  }
+  .hero-orbs {
+    position: absolute; inset:0; pointer-events:none;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: orb-float 8s ease-in-out infinite;
+  }
+  .orb-1 { width:500px; height:500px; background:rgba(201,168,76,0.08); top:-10%; left:-5%; animation-delay:0s; }
+  .orb-2 { width:400px; height:400px; background:rgba(255,107,53,0.06); bottom:10%; right:-5%; animation-delay:-3s; }
+  .orb-3 { width:300px; height:300px; background:rgba(201,168,76,0.05); top:40%; left:40%; animation-delay:-5s; }
+  @keyframes orb-float {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-20px) scale(1.05); }
+    66% { transform: translate(-20px,15px) scale(0.97); }
+  }
+
+  /* 3D HERO SCENE */
+  .hero-3d-scene {
+    position: absolute; inset:0;
+    perspective: 1000px;
+    pointer-events:none;
+  }
+  .floating-shape {
+    position: absolute;
+    border: 1px solid rgba(201,168,76,0.15);
+    animation: shape-float 10s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+  .shape-1 { width:120px; height:120px; top:15%; left:8%; animation-delay:0s; transform:rotateX(30deg) rotateY(45deg); border-radius:8px; }
+  .shape-2 { width:80px; height:80px; top:60%; left:6%; animation-delay:-4s; transform:rotateX(20deg) rotateY(-30deg); border-radius:50%; }
+  .shape-3 { width:100px; height:100px; top:20%; right:9%; animation-delay:-2s; transform:rotateX(-20deg) rotateY(60deg); }
+  .shape-4 { width:60px; height:60px; top:70%; right:12%; animation-delay:-6s; transform:rotateX(45deg) rotateY(15deg); border-radius:4px; }
+  .shape-5 { width:150px; height:150px; top:45%; right:4%; animation-delay:-1s; transform:rotateX(15deg) rotateY(-45deg); border-radius:50%; }
+  @keyframes shape-float {
+    0%,100% { transform:rotateX(30deg) rotateY(45deg) translateY(0); opacity:0.4; }
+    50% { transform:rotateX(45deg) rotateY(80deg) translateY(-25px); opacity:0.7; }
+  }
+
+  .hero-content {
+    position: relative; z-index:10;
+    text-align: center;
+    padding: 0 2rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fade-up 1s 0.3s forwards;
+  }
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content:'';
+    display:inline-block;
+    width:40px; height:1px;
+    background: var(--gold);
+    vertical-align: middle;
+    margin: 0 1rem;
+    opacity:0.5;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 900;
+    line-height: 0.95;
+    margin-bottom: 0.2em;
+    opacity: 0;
+    animation: fade-up 1s 0.5s forwards;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .hero-title .line-1 { display:block; color: var(--white); }
+  .hero-title .line-2 {
+    display:block;
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, #A07830 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  .hero-title .line-2::after {
+    content: attr(data-text);
+    position: absolute; left:0; top:0;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: blur(20px);
+    opacity:0.4;
+    z-index:-1;
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 300;
+    color: rgba(248,244,236,0.6);
+    margin: 1.6rem 0 2.8rem;
+    font-style: italic;
+    opacity:0;
+    animation: fade-up 1s 0.7s forwards;
+    letter-spacing: 0.04em;
+  }
+  .hero-ctas {
+    display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap;
+    opacity:0;
+    animation: fade-up 1s 0.9s forwards;
+  }
+  .btn-primary {
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--navy);
+    text-decoration:none;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content:'';
+    position:absolute; inset:0;
+    background: rgba(255,255,255,0.2);
+    transform: translateX(-110%) skewX(-15deg);
+    transition: transform 0.5s;
+  }
+  .btn-primary:hover::after { transform: translateX(110%) skewX(-15deg); }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(201,168,76,0.4); }
+  .btn-secondary {
+    padding: 1rem 2.5rem;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    text-decoration:none;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.3s;
+    backdrop-filter: blur(8px);
+  }
+  .btn-secondary:hover { border-color: var(--gold); background:rgba(201,168,76,0.08); transform:translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute; bottom:2.5rem; left:50%;
+    transform: translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+    opacity:0;
+    animation: fade-in 1s 1.5s forwards;
+  }
+  .hero-scroll span { font-size:0.68rem; letter-spacing:0.25em; text-transform:uppercase; color: var(--text-muted); }
+  .scroll-line {
+    width:1px; height:50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scroll-anim 2s ease-in-out infinite;
+  }
+  @keyframes scroll-anim {
+    0%,100% { transform:scaleY(1); transform-origin:top; }
+    50% { transform:scaleY(0.5); transform-origin:bottom; }
+  }
+
+  @keyframes fade-up {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity:0; }
+    to { opacity:1; }
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { position:relative; }
+  .section-inner { max-width:1280px; margin:0 auto; padding:0 2rem; }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display:flex; align-items:center; gap:0.8rem;
+  }
+  .section-label::before {
+    content:'';
+    width:30px; height:1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+  .section-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: rgba(248,244,236,0.55);
+    font-style: italic;
+    max-width: 540px;
+    line-height: 1.7;
+  }
+  .gold-text {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── STATS BAND ── */
+  #stats {
+    padding: 4rem 0;
+    background: linear-gradient(90deg, rgba(201,168,76,0.04) 0%, rgba(201,168,76,0.08) 50%, rgba(201,168,76,0.04) 100%);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:0;
+  }
+  .stat-item {
+    text-align:center;
+    padding: 1.5rem 2rem;
+    border-right: 1px solid rgba(201,168,76,0.1);
+  }
+  .stat-item:last-child { border-right:none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    line-height:1;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-size:0.75rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color: var(--text-muted);
+    margin-top:0.4rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    padding: 9rem 0;
+    overflow: hidden;
+  }
+  .about-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap: 6rem;
+    align-items:center;
+  }
+  .about-visual {
+    position:relative;
+    height: 560px;
+  }
+  .about-img-main {
+    position:absolute;
+    width:75%;
+    height:85%;
+    top:0; right:0;
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-card) 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    font-size:5rem;
+    transition: transform 0.5s;
+  }
+  .about-img-main:hover { transform:scale(1.02); }
+  .about-img-accent {
+    position:absolute;
+    width:50%;
+    height:50%;
+    bottom:0; left:0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(201,168,76,0.04) 100%);
+    border: 1px solid rgba(201,168,76,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-size:3rem;
+  }
+  .about-gold-line {
+    position:absolute;
+    top: -2px; left:0;
+    width:60px; height:3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .about-text p {
+    color:rgba(248,244,236,0.65);
+    line-height:1.85;
+    margin-bottom:1.2rem;
+    font-size:0.97rem;
+  }
+  .about-features {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:1rem; margin-top:2.5rem;
+  }
+  .about-feat {
+    display:flex; gap:0.8rem; align-items:flex-start;
+    padding:1rem;
+    background:rgba(201,168,76,0.04);
+    border:1px solid rgba(201,168,76,0.08);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .about-feat:hover { border-color:rgba(201,168,76,0.25); background:rgba(201,168,76,0.08); }
+  .feat-icon { font-size:1.4rem; flex-shrink:0; }
+  .feat-text { font-size:0.82rem; color:rgba(248,244,236,0.7); line-height:1.5; }
+  .feat-text strong { color:var(--white); display:block; margin-bottom:0.2rem; font-size:0.88rem; }
+
+  /* ── SERVICES ── */
+  #services {
+    padding: 9rem 0;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-mid) 100%);
+  }
+  .services-header {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:4rem; align-items:end;
+    margin-bottom: 5rem;
+  }
+  .services-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.5rem;
+  }
+  .service-card {
+    position:relative;
+    background: var(--navy-card);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 2.5rem 2rem;
+    overflow:hidden;
+    transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+    cursor: pointer;
+    transform-style: preserve-3d;
+    perspective: 600px;
+  }
+  .service-card::before {
+    content:'';
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+    opacity:0;
+    transition: opacity 0.4s;
+  }
+  .service-card:hover { transform: translateY(-10px) rotateX(3deg); border-color:rgba(201,168,76,0.35); box-shadow:0 30px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.1); }
+  .service-card:hover::before { opacity:1; }
+  .service-card-top-line {
+    position:absolute; top:0; left:0; right:0;
+    height:2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    transform: scaleX(0);
+    transform-origin:left;
+    transition: transform 0.4s;
+  }
+  .service-card:hover .service-card-top-line { transform:scaleX(1); }
+  .service-icon-wrap {
+    width:64px; height:64px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+    border:1px solid rgba(201,168,76,0.2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.8rem;
+    margin-bottom:1.8rem;
+    transition: all 0.4s;
+    position:relative;
+    z-index:1;
+  }
+  .service-card:hover .service-icon-wrap {
+    background: linear-gradient(135deg, rgba(201,168,76,0.3), rgba(201,168,76,0.1));
+    border-color:rgba(201,168,76,0.5);
+    box-shadow:0 0 30px rgba(201,168,76,0.2);
+    transform: scale(1.1) rotateY(10deg);
+  }
+  .service-card h3 {
+    font-family:'Playfair Display', serif;
+    font-size:1.4rem;
+    font-weight:700;
+    margin-bottom:1rem;
+    color:var(--white);
+    position:relative; z-index:1;
+  }
+  .service-card p {
+    font-size:0.88rem;
+    color:rgba(248,244,236,0.55);
+    line-height:1.75;
+    margin-bottom:1.5rem;
+    position:relative; z-index:1;
+  }
+  .service-tags {
+    display:flex; flex-wrap:wrap; gap:0.5rem;
+    position:relative; z-index:1;
+  }
+  .tag {
+    padding:0.3rem 0.8rem;
+    border:1px solid rgba(201,168,76,0.2);
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    color:var(--gold);
+    text-transform:uppercase;
+    background:rgba(201,168,76,0.04);
+  }
+  .service-card-num {
+    position:absolute; bottom:1.5rem; right:1.5rem;
+    font-family:'Playfair Display', serif;
+    font-size:4rem;
+    font-weight:900;
+    color:rgba(201,168,76,0.05);
+    line-height:1;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-card-num { color:rgba(201,168,76,0.1); }
+
+  /* Featured card */
+  .service-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-card) 100%);
+    border-color:rgba(201,168,76,0.2);
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:2rem;
+  }
+  .service-card.featured .service-content { display:flex; flex-direction:column; justify-content:center; }
+  .service-card.featured .service-visual {
+    background: linear-gradient(135deg, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.03) 100%);
+    border:1px solid rgba(201,168,76,0.15);
+    display:flex; align-items:center; justify-content:center;
+    font-size:5rem;
+    min-height:200px;
+    transition: transform 0.4s;
+  }
+  .service-card.featured:hover .service-visual { transform:scale(1.03); }
+
+  /* ── GADGETS 3D SHOWCASE ── */
+  #gadgets {
+    padding: 9rem 0;
+    background: var(--navy);
+    overflow:hidden;
+  }
+  .gadgets-header { text-align:center; margin-bottom:5rem; }
+  .gadgets-header .section-label { justify-content:center; }
+  .gadgets-track-wrap {
+    position:relative;
+    overflow:hidden;
+    padding: 2rem 0;
+  }
+  .gadgets-track-wrap::before,
+  .gadgets-track-wrap::after {
+    content:'';
+    position:absolute; top:0; bottom:0;
+    width:200px;
+    z-index:2;
+    pointer-events:none;
+  }
+  .gadgets-track-wrap::before { left:0; background: linear-gradient(90deg, var(--navy), transparent); }
+  .gadgets-track-wrap::after { right:0; background: linear-gradient(-90deg, var(--navy), transparent); }
+  .gadgets-track {
+    display:flex; gap:1.5rem;
+    animation: scroll-track 30s linear infinite;
+    width:max-content;
+  }
+  .gadgets-track:hover { animation-play-state:paused; }
+  @keyframes scroll-track {
+    from { transform:translateX(0); }
+    to { transform:translateX(-50%); }
+  }
+  .gadget-card {
+    width:220px; flex-shrink:0;
+    background: var(--navy-card);
+    border:1px solid rgba(201,168,76,0.1);
+    padding:2rem 1.5rem;
+    text-align:center;
+    transition: all 0.3s;
+    cursor:default;
+  }
+  .gadget-card:hover {
+    border-color:rgba(201,168,76,0.35);
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+  }
+  .gadget-icon { font-size:3rem; margin-bottom:1rem; display:block; }
+  .gadget-name {
+    font-family:'Playfair Display',serif;
+    font-size:0.95rem;
+    font-weight:700;
+    color:var(--white);
+    margin-bottom:0.4rem;
+  }
+  .gadget-age { font-size:0.72rem; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase; }
+
+  /* ── GALLERY ── */
+  #gallery {
+    padding: 9rem 0;
+    background: var(--navy-mid);
+  }
+  .gallery-header {
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:4rem;
+  }
+  .gallery-grid {
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    grid-template-rows:repeat(2,240px);
+    gap:0.8rem;
+  }
+  .gallery-item {
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+    background: var(--navy-card);
+    border:1px solid rgba(201,168,76,0.08);
+  }
+  .gallery-item:nth-child(1) { grid-column: span 5; grid-row: span 2; }
+  .gallery-item:nth-child(2) { grid-column: span 4; }
+  .gallery-item:nth-child(3) { grid-column: span 3; }
+  .gallery-item:nth-child(4) { grid-column: span 3; }
+  .gallery-item:nth-child(5) { grid-column: span 4; }
+  .gallery-item:nth-child(6) { grid-column: span 5; grid-row:1; grid-column:8 / span 5; grid-row:1; }
+
+  .gallery-item-inner {
+    width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:3.5rem;
+    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(201,168,76,0.02) 100%);
+  }
+  .gallery-item:hover .gallery-item-inner { transform:scale(1.08); }
+  .gallery-overlay {
+    position:absolute; inset:0;
+    background: linear-gradient(0deg, rgba(10,14,26,0.9) 0%, transparent 60%);
+    opacity:0;
+    transition:opacity 0.4s;
+    display:flex; align-items:flex-end;
+    padding:1.5rem;
+  }
+  .gallery-item:hover .gallery-overlay { opacity:1; }
+  .gallery-label {
+    font-family:'Playfair Display',serif;
+    font-size:1rem;
+    color:var(--white);
+    font-weight:700;
+  }
+
+  /* ── CATERING ── */
+  #catering {
+    padding: 9rem 0;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-mid) 100%);
+    overflow:hidden;
+  }
+  .catering-split {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:5rem; align-items:center;
+  }
+  .menu-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  }
+  .menu-item {
+    background:var(--navy-card);
+    border:1px solid rgba(201,168,76,0.08);
+    padding:1.5rem;
+    transition:all 0.3s;
+    position:relative;
+    overflow:hidden;
+  }
+  .menu-item::before {
+    content:'';
+    position:absolute; bottom:0; left:0; right:0;
+    height:2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.3s;
+  }
+  .menu-item:hover { border-color:rgba(201,168,76,0.25); transform:translateY(-4px); }
+  .menu-item:hover::before { transform:scaleX(1); }
+  .menu-emoji { font-size:2rem; margin-bottom:0.8rem; display:block; }
+  .menu-name {
+    font-family:'Playfair Display',serif;
+    font-size:1rem;
+    font-weight:700;
+    color:var(--white);
+    margin-bottom:0.3rem;
+  }
+  .menu-desc { font-size:0.78rem; color:var(--text-muted); line-height:1.5; }
+  .catering-badge {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.6rem 1.2rem;
+    background:rgba(201,168,76,0.08);
+    border:1px solid rgba(201,168,76,0.2);
+    font-size:0.75rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:2rem;
+  }
+
+  /* ── BOOKING ── */
+  #booking {
+    padding: 9rem 0;
+    background: var(--navy);
+    position:relative;
+    overflow:hidden;
+  }
+  #booking::before {
+    content:'';
+    position:absolute; top:-200px; left:50%;
+    transform:translateX(-50%);
+    width:800px; height:800px;
+    background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .booking-wrap {
+    display:grid; grid-template-columns:1fr 1.3fr;
+    gap:6rem; align-items:start;
+  }
+  .booking-info h2 { margin-bottom:1.5rem; }
+  .booking-info p {
+    color:rgba(248,244,236,0.55);
+    line-height:1.8;
+    margin-bottom:2rem;
+    font-size:0.95rem;
+  }
+  .booking-steps { list-style:none; display:flex; flex-direction:column; gap:1.2rem; }
+  .booking-step {
+    display:flex; gap:1rem; align-items:flex-start;
+  }
+  .step-num {
+    width:36px; height:36px; flex-shrink:0;
+    border:1px solid rgba(201,168,76,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display',serif;
+    font-size:0.9rem;
+    color:var(--gold);
+    font-weight:700;
+  }
+  .step-text { font-size:0.88rem; color:rgba(248,244,236,0.65); line-height:1.6; padding-top:0.5rem; }
+  .step-text strong { color:var(--white); display:block; margin-bottom:0.15rem; }
+
+  /* Form */
+  .booking-form {
+    background:var(--navy-card);
+    border:1px solid rgba(201,168,76,0.12);
+    padding:3rem;
+    position:relative;
+  }
+  .booking-form::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0;
+    height:3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .form-title {
+    font-family:'Playfair Display',serif;
+    font-size:1.6rem;
+    font-weight:700;
+    margin-bottom:0.5rem;
+  }
+  .form-subtitle {
+    font-size:0.82rem;
+    color:var(--text-muted);
+    margin-bottom:2.5rem;
+    letter-spacing:0.04em;
+  }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+  .form-group { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1rem; }
+  .form-group label {
+    font-size:0.7rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:500;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background:rgba(248,244,236,0.04);
+    border:1px solid rgba(201,168,76,0.15);
+    color:var(--white);
+    padding:0.9rem 1.1rem;
+    font-size:0.88rem;
+    font-family:'DM Sans',sans-serif;
+    outline:none;
+    transition:border-color 0.3s, background 0.3s;
+    width:100%;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color:rgba(201,168,76,0.5);
+    background:rgba(201,168,76,0.04);
+  }
+  .form-group select option { background:var(--navy-card); }
+  .form-group textarea { resize:vertical; min-height:90px; }
+  .form-services {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:0.6rem; margin-bottom:1.5rem;
+  }
+  .service-check {
+    display:flex; gap:0.6rem; align-items:center;
+    cursor:pointer;
+  }
+  .service-check input[type=checkbox] { display:none; }
+  .check-box {
+    width:16px; height:16px;
+    border:1px solid rgba(201,168,76,0.3);
+    flex-shrink:0;
+    position:relative;
+    transition:all 0.2s;
+  }
+  .service-check input:checked + .check-box {
+    background:var(--gold);
+    border-color:var(--gold);
+  }
+  .service-check input:checked + .check-box::after {
+    content:'✓';
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.7rem;
+    color:var(--navy);
+    font-weight:700;
+  }
+  .check-label { font-size:0.82rem; color:rgba(248,244,236,0.7); }
+  .submit-btn {
+    width:100%;
+    padding:1rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    border:none;
+    color:var(--navy);
+    font-size:0.82rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:600;
+    font-family:'DM Sans',sans-serif;
+    cursor:pointer;
+    transition:all 0.3s;
+    position:relative;
+    overflow:hidden;
+  }
+  .submit-btn:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(201,168,76,0.4); }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials {
+    padding:9rem 0;
+    background:var(--navy-mid);
+    overflow:hidden;
+  }
+  .testimonials-header { text-align:center; margin-bottom:4rem; }
+  .testimonials-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:1.5rem;
+  }
+  .testimonial-card {
+    background:var(--navy-card);
+    border:1px solid rgba(201,168,76,0.08);
+    padding:2.5rem;
+    position:relative;
+    transition:all 0.3s;
+  }
+  .testimonial-card:hover { border-color:rgba(201,168,76,0.25); transform:translateY(-6px); }
+  .quote-mark {
+    font-family:'Playfair Display',serif;
+    font-size:4rem;
+    color:rgba(201,168,76,0.2);
+    line-height:0.8;
+    margin-bottom:1rem;
+    display:block;
+  }
+  .testimonial-text {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.05rem;
+    font-style:italic;
+    color:rgba(248,244,236,0.75);
+    line-height:1.7;
+    margin-bottom:1.8rem;
+  }
+  .testimonial-author { display:flex; align-items:center; gap:1rem; }
+  .author-avatar {
+    width:44px; height:44px;
+    border-radius:50%;
+    background: linear-gradient(135deg, rgba(201,168,76,0.3), rgba(201,168,76,0.1));
+    border:1px solid rgba(201,168,76,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem;
+  }
+  .author-name { font-size:0.88rem; font-weight:500; color:var(--white); }
+  .author-event { font-size:0.72rem; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; }
+  .stars { color:var(--gold); font-size:0.75rem; margin-bottom:0.8rem; }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding:9rem 0;
+    background:var(--navy);
+  }
+  .contact-grid {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:6rem;
+  }
+  .contact-info h2 { margin-bottom:1.5rem; }
+  .contact-info p {
+    color:rgba(248,244,236,0.55);
+    line-height:1.8;
+    margin-bottom:3rem;
+    font-size:0.95rem;
+  }
+  .contact-items { display:flex; flex-direction:column; gap:1.5rem; }
+  .contact-item {
+    display:flex; gap:1.2rem; align-items:flex-start;
+  }
+  .contact-icon {
+    width:48px; height:48px; flex-shrink:0;
+    background:rgba(201,168,76,0.08);
+    border:1px solid rgba(201,168,76,0.15);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem;
+    transition:all 0.3s;
+  }
+  .contact-item:hover .contact-icon {
+    background:rgba(201,168,76,0.15);
+    border-color:rgba(201,168,76,0.4);
+  }
+  .contact-detail { padding-top:0.3rem; }
+  .contact-detail strong {
+    display:block;
+    font-size:0.72rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:0.3rem;
+  }
+  .contact-detail span { font-size:0.9rem; color:rgba(248,244,236,0.75); }
+  .map-placeholder {
+    height:100%;
+    min-height:450px;
+    background: var(--navy-card);
+    border:1px solid rgba(201,168,76,0.12);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:1rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .map-placeholder::before {
+    content:'';
+    position:absolute; inset:0;
+    background:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .map-pin { font-size:3rem; position:relative; z-index:1; animation:pin-bounce 2s ease-in-out infinite; }
+  @keyframes pin-bounce {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-10px); }
+  }
+  .map-label { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; position:relative; z-index:1; }
+  .map-sub { font-size:0.8rem; color:var(--text-muted); position:relative; z-index:1; letter-spacing:0.08em; }
+
+  /* Social */
+  .social-row { display:flex; gap:1rem; margin-top:2.5rem; }
+  .social-btn {
+    width:44px; height:44px;
+    background:rgba(201,168,76,0.06);
+    border:1px solid rgba(201,168,76,0.15);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem;
+    transition:all 0.3s;
+    text-decoration:none;
+    color:var(--text-muted);
+  }
+  .social-btn:hover {
+    background:rgba(201,168,76,0.15);
+    border-color:rgba(201,168,76,0.4);
+    color:var(--gold);
+    transform:translateY(-3px);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding:4rem 0 2rem;
+    border-top:1px solid rgba(201,168,76,0.1);
+    background:var(--navy);
+  }
+  .footer-inner {
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:1.5rem;
+  }
+  .footer-logo {
+    font-family:'Playfair Display',serif;
+    font-size:1.1rem;
+    font-weight:900;
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+  .footer-copy {
+    font-size:0.75rem;
+    color:var(--text-muted);
+    letter-spacing:0.08em;
+  }
+  .footer-links { display:flex; gap:2rem; }
+  .footer-links a {
+    font-size:0.75rem;
+    color:var(--text-muted);
+    text-decoration:none;
+    letter-spacing:0.08em;
+    transition:color 0.3s;
+    text-transform:uppercase;
+  }
+  .footer-links a:hover { color:var(--gold); }
+
+  /* ── DIVIDERS ── */
+  .gold-divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+    margin:0;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity:0;
+    transform:translateY(40px);
+    transition:opacity 0.8s, transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-delay-1 { transition-delay:0.1s; }
+  .reveal-delay-2 { transition-delay:0.2s; }
+  .reveal-delay-3 { transition-delay:0.3s; }
+  .reveal-delay-4 { transition-delay:0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:1024px) {
+    nav { padding:1.2rem 2rem; }
+    nav.scrolled { padding:0.9rem 2rem; }
+    .nav-links { display:none; }
+    .services-header,
+    .about-grid,
+    .catering-split,
+    .booking-wrap,
+    .contact-grid { grid-template-columns:1fr; gap:3rem; }
+    .services-grid { grid-template-columns:1fr 1fr; }
+    .service-card.featured { grid-column:span 2; }
+    .testimonials-grid { grid-template-columns:1fr 1fr; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); }
+    .stat-item:nth-child(2) { border-right:none; }
+    .stat-item:nth-child(3) { border-top:1px solid rgba(201,168,76,0.1); }
+    .gallery-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:auto; }
+    .gallery-item { grid-column:span 1 !important; grid-row:span 1 !important; height:200px; }
+  }
+  @media (max-width:640px) {
+    .section-inner { padding:0 1.2rem; }
+    #hero { padding:0 1.2rem; }
+    .services-grid { grid-template-columns:1fr; }
+    .service-card.featured { grid-column:span 1; grid-template-columns:1fr; }
+    .testimonials-grid { grid-template-columns:1fr; }
+    .menu-grid { grid-template-columns:1fr; }
+    .form-row { grid-template-columns:1fr; }
+    .form-services { grid-template-columns:1fr; }
+    .about-visual { height:300px; }
+    .booking-form { padding:2rem 1.5rem; }
+    .footer-inner { flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursors -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="nav-logo">Fun <span>with</span> Arena</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#catering">Catering</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#booking" class="nav-cta">Book Now</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="hero-3d-scene">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+    <div class="floating-shape shape-5"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Hyderabad's Premier Entertainment Partner</div>
+    <h1 class="hero-title">
+      <span class="line-1">Fun With</span>
+      <span class="line-2" data-text="Arena">Arena</span>
+    </h1>
+    <p class="hero-subtitle">Where Every Celebration Becomes an Unforgettable Experience</p>
+    <div class="hero-ctas">
+      <a href="#booking" class="btn-primary">Book Your Event</a>
+      <a href="#services" class="btn-secondary">Explore Services</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<section id="stats">
+  <div class="section-inner">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num" data-count="500">500+</div>
+        <div class="stat-label">Events Executed</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Gadgets Available</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-num">5★</div>
+        <div class="stat-label">Rated Service</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-img-main">🎪</div>
+        <div class="about-img-accent">🏆</div>
+        <div class="about-gold-line"></div>
+      </div>
+      <div class="about-text">
+        <div class="section-label reveal">Our Story</div>
+        <h2 class="section-title reveal reveal-delay-1">Crafting <span class="gold-text">Premium</span><br>Party Experiences</h2>
+        <p class="reveal reveal-delay-2">Fun With Arena was founded with one singular mission: to transform ordinary celebrations into extraordinary memories. We understand that every event is unique, and we bring unmatched professionalism and creativity to every function we manage.</p>
+        <p class="reveal reveal-delay-2">From intimate birthday parties to grand corporate functions, we are Hyderabad's trusted name in premium party and entertainment services — delivering joy, laughter, and luxurious experiences that families talk about for years.</p>
+        <div class="about-features reveal reveal-delay-3">
+          <div class="about-feat">
+            <div class="feat-icon">🎮</div>
+            <div class="feat-text">
+              <strong>Gadget Rentals</strong>
+              Safe, age-appropriate gadgets for children's delight
+            </div>
+          </div>
+          <div class="about-feat">
+            <div class="feat-icon">🍿</div>
+            <div class="feat-text">
+              <strong>Premium Catering</strong>
+              Fresh snacks, beverages & specialty treats
+            </div>
+          </div>
+          <div class="about-feat">
+            <div class="feat-icon">🎪</div>
+            <div class="feat-text">
+              <strong>Stall Management</strong>
+              Full event stall setup and operations
+            </div>
+          </div>
+          <div class="about-feat">
+            <div class="feat-icon">⭐</div>
+            <div class="feat-text">
+              <strong>End-to-End Service</strong>
+              From planning to execution, we handle it all
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="section-inner">
+    <div class="services-header">
+      <div>
+        <div class="section-label reveal">What We Offer</div>
+        <h2 class="section-title reveal reveal-delay-1">Our <span class="gold-text">Signature</span><br>Services</h2>
+      </div>
+      <p class="section-subtitle reveal reveal-delay-2">Every service is curated to deliver a five-star experience — tailored precisely to your celebration's unique needs and vision.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card featured reveal">
+        <div class="service-card-top-line"></div>
+        <div class="service-content">
+          <div class="service-icon-wrap">🎮</div>
+          <h3>Kids Gadget Rentals</h3>
+          <p>A carefully curated collection of age-appropriate electronic gadgets, interactive toys, and play stations designed to keep children entertained and engaged throughout your event.</p>
+          <div class="service-tags">
+            <span class="tag">Ages 2–12</span>
+            <span class="tag">Interactive</span>
+            <span class="tag">Safe & Sanitized</span>
+            <span class="tag">Setup Included</span>
+          </div>
+        </div>
+        <div class="service-visual">🕹️</div>
+        <div class="service-card-num">01</div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-card-top-line"></div>
+        <div class="service-icon-wrap">🍿</div>
+        <h3>Premium Catering</h3>
+        <p>Freshly prepared snacks, artisan beverages, and specialty treats served with elegance. From classic popcorn to premium tea service — every bite is crafted to impress.</p>
+        <div class="service-tags">
+          <span class="tag">Tea & Coffee</span>
+          <span class="tag">Popcorn</span>
+          <span class="tag">Snacks</span>
+        </div>
+        <div class="service-card-num">02</div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-card-top-line"></div>
+        <div class="service-icon-wrap">🏪</div>
+        <h3>Event Stall Setup</h3>
+        <p>Full-service stall design, installation, decoration, and on-site management. We bring your vision to life with premium materials, custom branding, and flawless execution.</p>
+        <div class="service-tags">
+          <span class="tag">Custom Design</span>
+          <span class="tag">Full Setup</span>
+          <span class="tag">Management</span>
+        </div>
+        <div class="service-card-num">03</div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-card-top-line"></div>
+        <div class="service-icon-wrap">🎉</div>
+        <h3>Birthday Packages</h3>
+        <p>Complete birthday party packages combining gadget zones, catering, themed decor, and entertainment — everything bundled into one seamless premium experience.</p>
+        <div class="service-tags">
+          <span class="tag">All-Inclusive</span>
+          <span class="tag">Themed</span>
+          <span class="tag">Custom</span>
+        </div>
+        <div class="service-card-num">04</div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-card-top-line"></div>
+        <div class="service-icon-wrap">🏢</div>
+        <h3>Corporate Functions</h3>
+        <p>Professional event entertainment for corporate gatherings, company celebrations, team events, and product launches — maintaining prestige while delivering fun.</p>
+        <div class="service-tags">
+          <span class="tag">Corporate</span>
+          <span class="tag">Team Events</span>
+          <span class="tag">Branded</span>
+        </div>
+        <div class="service-card-num">05</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── GADGETS SHOWCASE ── -->
+<section id="gadgets">
+  <div class="section-inner">
+    <div class="gadgets-header">
+      <div class="section-label">Interactive Showcase</div>
+      <h2 class="section-title reveal">Our <span class="gold-text">Gadget</span> Collection</h2>
+      <p class="section-subtitle reveal reveal-delay-1">Safe, sanitized, and exciting — every gadget in our collection is handpicked for maximum fun and minimum worry.</p>
+    </div>
+  </div>
+  <div class="gadgets-track-wrap">
+    <div class="gadgets-track" id="gadgetsTrack">
+      <div class="gadget-card"><span class="gadget-icon">🏎️</span><div class="gadget-name">Mini Ride-On Cars</div><div class="gadget-age">Ages 2–6</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎯</span><div class="gadget-name">Archery Station</div><div class="gadget-age">Ages 6–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎮</span><div class="gadget-name">Gaming Consoles</div><div class="gadget-age">Ages 5–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🤖</span><div class="gadget-name">Robot Kits</div><div class="gadget-age">Ages 7–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎪</span><div class="gadget-name">Bounce Castle</div><div class="gadget-age">Ages 2–8</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🛸</span><div class="gadget-name">Mini Drones</div><div class="gadget-age">Ages 8–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎨</span><div class="gadget-name">Digital Art Pads</div><div class="gadget-age">Ages 4–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎵</span><div class="gadget-name">Kids DJ Station</div><div class="gadget-age">Ages 5–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🔭</span><div class="gadget-name">Mini Telescope</div><div class="gadget-age">Ages 6–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎠</span><div class="gadget-name">Carousel Spinner</div><div class="gadget-age">Ages 2–6</div></div>
+      <!-- Duplicate for infinite loop -->
+      <div class="gadget-card"><span class="gadget-icon">🏎️</span><div class="gadget-name">Mini Ride-On Cars</div><div class="gadget-age">Ages 2–6</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎯</span><div class="gadget-name">Archery Station</div><div class="gadget-age">Ages 6–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎮</span><div class="gadget-name">Gaming Consoles</div><div class="gadget-age">Ages 5–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🤖</span><div class="gadget-name">Robot Kits</div><div class="gadget-age">Ages 7–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎪</span><div class="gadget-name">Bounce Castle</div><div class="gadget-age">Ages 2–8</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🛸</span><div class="gadget-name">Mini Drones</div><div class="gadget-age">Ages 8–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎨</span><div class="gadget-name">Digital Art Pads</div><div class="gadget-age">Ages 4–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎵</span><div class="gadget-name">Kids DJ Station</div><div class="gadget-age">Ages 5–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🔭</span><div class="gadget-name">Mini Telescope</div><div class="gadget-age">Ages 6–12</div></div>
+      <div class="gadget-card"><span class="gadget-icon">🎠</span><div class="gadget-name">Carousel Spinner</div><div class="gadget-age">Ages 2–6</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section id="gallery">
+  <div class="section-inner">
+    <div class="gallery-header">
+      <div>
+        <div class="section-label reveal">Our Work</div>
+        <h2 class="section-title reveal reveal-delay-1">Event <span class="gold-text">Gallery</span></h2>
+      </div>
+      <a href="#booking" class="btn-secondary reveal">View All Events</a>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item">
+        <div class="gallery-item-inner">🎂</div>
+        <div class="gallery-overlay"><div class="gallery-label">Birthday Bonanza</div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-item-inner">🎠</div>
+        <div class="gallery-overlay"><div class="gallery-label">Kids Play Zone</div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-item-inner">🍿</div>
+        <div class="gallery-overlay"><div class="gallery-label">Catering Stall</div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-item-inner">🏪</div>
+        <div class="gallery-overlay"><div class="gallery-label">Event Stall Setup</div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-item-inner">🎪</div>
+        <div class="gallery-overlay"><div class="gallery-label">Grand Function</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CATERING ── -->
+<section id="catering">
+  <div class="section-inner">
+    <div class="catering-split">
+      <div class="reveal">
+        <div class="catering-badge">✦ Premium Catering Services</div>
+        <div class="section-label">Taste the Difference</div>
+        <h2 class="section-title"><span class="gold-text">Artisan</span><br>Catering Menu</h2>
+        <p class="section-subtitle" style="margin-top:1rem;">Every item on our menu is prepared fresh on-site with premium ingredients — because great events deserve great food.</p>
+        <a href="#booking" class="btn-primary" style="margin-top:2.5rem; display:inline-block;">Get Catering Quote</a>
+      </div>
+      <div class="menu-grid reveal reveal-delay-1">
+        <div class="menu-item">
+          <span class="menu-emoji">🍿</span>
+          <div class="menu-name">Gourmet Popcorn</div>
+          <div class="menu-desc">Classic butter, caramel, cheese & spicy masala — freshly popped on-site</div>
+        </div>
+        <div class="menu-item">
+          <span class="menu-emoji">☕</span>
+          <div class="menu-name">Premium Tea Service</div>
+          <div class="menu-desc">Masala chai, green tea, and herbal blends served elegantly</div>
+        </div>
+        <div class="menu-item">
+          <span class="menu-emoji">🧃</span>
+          <div class="menu-name">Fresh Juices</div>
+          <div class="menu-desc">Cold-pressed seasonal fruit juices and mocktails for all ages</div>
+        </div>
+        <div class="menu-item">
+          <span class="menu-emoji">🥪</span>
+          <div class="menu-name">Party Snacks</div>
+          <div class="menu-desc">Sandwiches, samosas, and bite-size delights for the whole family</div>
+        </div>
+        <div class="menu-item">
+          <span class="menu-emoji">🎂</span>
+          <div class="menu-name">Custom Desserts</div>
+          <div class="menu-desc">Themed cakes, cupcakes, and sweet treats tailored to your event</div>
+        </div>
+        <div class="menu-item">
+          <span class="menu-emoji">🍦</span>
+          <div class="menu-name">Ice Cream Station</div>
+          <div class="menu-desc">Scoops, sundaes, and popsicles that children absolutely love</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ── BOOKING ── -->
+<section id="booking">
+  <div class="section-inner">
+    <div class="booking-wrap">
+      <div class="booking-info">
+        <div class="section-label reveal">Reserve Your Date</div>
+        <h2 class="section-title reveal reveal-delay-1">Book Your <span class="gold-text">Dream</span> Event</h2>
+        <p class="reveal reveal-delay-2">Ready to create unforgettable memories? Fill in your event details and our team will craft a personalized entertainment package within 24 hours.</p>
+        <ul class="booking-steps reveal reveal-delay-3">
+          <li class="booking-step">
+            <div class="step-num">01</div>
+            <div class="step-text"><strong>Submit Your Enquiry</strong>Tell us about your event, date, and requirements</div>
+          </li>
+          <li class="booking-step">
+            <div class="step-num">02</div>
+            <div class="step-text"><strong>Receive Custom Quote</strong>We'll design a tailored package within 24 hours</div>
+          </li>
+          <li class="booking-step">
+            <div class="step-num">03</div>
+            <div class="step-text"><strong>Confirm & Relax</strong>We handle everything — you just enjoy your event</div>
+          </li>
+        </ul>
+      </div>
+      <div class="booking-form reveal reveal-delay-2">
+        <div class="form-title">Event Enquiry</div>
+        <div class="form-subtitle">* We respond within 24 hours</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Full Name">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 XXXXX XXXXX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Event Date</label>
+            <input type="date">
+          </div>
+          <div class="form-group">
+            <label>Event Type</label>
+            <select>
+              <option value="">Select Type</option>
+              <option>Birthday Party</option>
+              <option>Corporate Function</option>
+              <option>School Event</option>
+              <option>Wedding Function</option>
+              <option>Community Event</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Services Required</label>
+          <div class="form-services">
+            <label class="service-check"><input type="checkbox"><div class="check-box"></div><span class="check-label">Gadget Rentals</span></label>
+            <label class="service-check"><input type="checkbox"><div class="check-box"></div><span class="check-label">Catering Services</span></label>
+            <label class="service-check"><input type="checkbox"><div class="check-box"></div><span class="check-label">Stall Setup</span></label>
+            <label class="service-check"><input type="checkbox"><div class="check-box"></div><span class="check-label">Full Package</span></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Additional Details</label>
+          <textarea placeholder="Tell us about your event, expected guest count, venue, special requirements..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="handleSubmit()">Send Enquiry →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="testimonials-header">
+      <div class="section-label" style="justify-content:center;">Client Stories</div>
+      <h2 class="section-title reveal">What Our <span class="gold-text">Clients</span> Say</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">Fun With Arena completely transformed my daughter's birthday party. The gadget zone kept all the kids occupied and happy, while the catering was absolutely delicious. Highly recommended!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">👩</div>
+          <div>
+            <div class="author-name">Priya Reddy</div>
+            <div class="author-event">Birthday Party · Jubilee Hills</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">We hired them for our company's annual family day. The stall setup was stunning — premium quality, beautifully decorated. The team was professional and managed everything seamlessly.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">👨</div>
+          <div>
+            <div class="author-name">Kiran Sharma</div>
+            <div class="author-event">Corporate Event · HITEC City</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <span class="quote-mark">"</span>
+        <p class="testimonial-text">The popcorn and tea service were a massive hit at our school function! Parents and children loved it. The setup was clean, elegant, and the team was incredibly courteous throughout.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">👩</div>
+          <div>
+            <div class="author-name">Sunita Agarwal</div>
+            <div class="author-event">School Function · Secunderabad</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="section-label reveal">Get In Touch</div>
+        <h2 class="section-title reveal reveal-delay-1">Let's Plan Your <span class="gold-text">Perfect</span> Event</h2>
+        <p class="reveal reveal-delay-2">Have questions? Ready to book? Our team is available seven days a week to help you plan your dream event. Reach out — we'd love to hear from you.</p>
+        <div class="contact-items reveal reveal-delay-2">
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-detail">
+              <strong>Call Us</strong>
+              <span>+91 98765 43210</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-detail">
+              <strong>Email</strong>
+              <span>hello@funwitharena.in</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-detail">
+              <strong>Location</strong>
+              <span>Hyderabad, Telangana, India</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div class="contact-detail">
+              <strong>Hours</strong>
+              <span>Mon – Sun · 9 AM to 9 PM</span>
+            </div>
+          </div>
+        </div>
+        <div class="social-row reveal reveal-delay-3">
+          <a href="#" class="social-btn" title="Instagram">📸</a>
+          <a href="#" class="social-btn" title="Facebook">📘</a>
+          <a href="#" class="social-btn" title="WhatsApp">💬</a>
+          <a href="#" class="social-btn" title="YouTube">▶️</a>
+        </div>
+      </div>
+      <div class="map-placeholder reveal reveal-delay-2">
+        <div class="map-pin">📍</div>
+        <div class="map-label">Fun With Arena</div>
+        <div class="map-sub">Hyderabad, Telangana</div>
+        <a href="https://maps.google.com/?q=Hyderabad,Telangana" target="_blank" class="btn-primary" style="margin-top:1rem; font-size:0.75rem; padding:0.7rem 1.8rem;">Open in Maps</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="section-inner">
+    <div class="footer-inner">
+      <div class="footer-logo">Fun With Arena</div>
+      <div class="footer-links">
+        <a href="#services">Services</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#booking">Book Now</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">© 2025 Fun With Arena · Hyderabad · All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── TOAST ── -->
+<div id="toast" style="
+  position:fixed; bottom:2rem; right:2rem;
+  background:linear-gradient(135deg,#C9A84C,#F0D080);
+  color:#0A0E1A;
+  padding:1rem 1.8rem;
+  font-size:0.85rem;
+  font-weight:600;
+  letter-spacing:0.08em;
+  z-index:9999;
+  transform:translateY(100px);
+  opacity:0;
+  transition:all 0.4s cubic-bezier(0.23,1,0.32,1);
+  pointer-events:none;
+"></div>
+
+<script>
+  // ── CURSOR ──
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+  });
+  function animRing(){
+    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+  document.querySelectorAll('a,button,.service-card,.gallery-item,.gadget-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      cursor.style.width='20px'; cursor.style.height='20px';
+      ring.style.width='56px'; ring.style.height='56px';
+    });
+    el.addEventListener('mouseleave',()=>{
+      cursor.style.width='12px'; cursor.style.height='12px';
+      ring.style.width='36px'; ring.style.height='36px';
+    });
+  });
+
+  // ── NAV SCROLL ──
+  const nav=document.getElementById('navbar');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled',window.scrollY>60);
+  });
+
+  // ── REVEAL ON SCROLL ──
+  const revealEls=document.querySelectorAll('.reveal');
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  },{threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+
+  // ── HERO 3D TILT ──
+  const heroContent=document.querySelector('.hero-content');
+  document.getElementById('hero').addEventListener('mousemove',e=>{
+    const rect=e.currentTarget.getBoundingClientRect();
+    const x=(e.clientX-rect.left)/rect.width-0.5;
+    const y=(e.clientY-rect.top)/rect.height-0.5;
+    heroContent.style.transform=`perspective(1000px) rotateY(${x*6}deg) rotateX(${-y*4}deg)`;
+  });
+  document.getElementById('hero').addEventListener('mouseleave',()=>{
+    heroContent.style.transform='perspective(1000px) rotateY(0) rotateX(0)';
+    heroContent.style.transition='transform 0.8s ease';
+    setTimeout(()=>heroContent.style.transition='',800);
+  });
+
+  // ── SERVICE CARD 3D ──
+  document.querySelectorAll('.service-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-0.5;
+      const y=(e.clientY-r.top)/r.height-0.5;
+      card.style.transform=`translateY(-10px) rotateX(${-y*8}deg) rotateY(${x*8}deg)`;
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform='';
+    });
+  });
+
+  // ── COUNTER ANIMATION ──
+  function animateCount(el){
+    const target=parseInt(el.textContent);
+    if(isNaN(target)) return;
+    let current=0;
+    const step=target/60;
+    const timer=setInterval(()=>{
+      current+=step;
+      if(current>=target){ current=target; clearInterval(timer); }
+      el.textContent=Math.floor(current)+(el.textContent.includes('+') ? '+' : el.textContent.includes('%') ? '%' : '');
+    },16);
+  }
+  const statsIo=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.stat-num').forEach(animateCount);
+        statsIo.unobserve(e.target);
+      }
+    });
+  },{threshold:0.5});
+  const statsSection=document.getElementById('stats');
+  if(statsSection) statsIo.observe(statsSection);
+
+  // ── BOOKING SUBMIT ──
+  function handleSubmit(){
+    const toast=document.getElementById('toast');
+    toast.textContent='✨ Enquiry Sent! We\'ll contact you within 24 hours.';
+    toast.style.transform='translateY(0)';
+    toast.style.opacity='1';
+    setTimeout(()=>{
+      toast.style.transform='translateY(100px)';
+      toast.style.opacity='0';
+    },4000);
+  }
+
+  // ── SMOOTH ANCHOR SCROLL ──
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href');
+      if(id==='#') return;
+      e.preventDefault();
+      const target=document.querySelector(id);
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+
+  // ── PARALLAX SHAPES ──
+  window.addEventListener('scroll',()=>{
+    const sy=window.scrollY;
+    document.querySelectorAll('.floating-shape').forEach((s,i)=>{
+      const speed=(i%2===0?0.06:0.04)*(i+1);
+      s.style.transform=`translateY(${sy*speed}px)`;
+    });
+    document.querySelectorAll('.orb').forEach((o,i)=>{
+      const speed=(i+1)*0.03;
+      o.style.transform=`translateY(${sy*speed}px)`;
+    });
+  });
+</script>
+</body>
+</html>
